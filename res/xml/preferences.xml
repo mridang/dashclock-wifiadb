@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.mridang.callstats" >
+
+	<CheckBoxPreference
+	    android:key="always"
+	    android:title="@string/always"
+	    android:defaultValue="true"
+	    android:summary="@string/summary" />
+
+</PreferenceScreen>

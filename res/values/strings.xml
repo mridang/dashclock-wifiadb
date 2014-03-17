@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="extension_name">Wireless Debugging</string>
+    <string name="application_name">Dashclock Wireless Debugging Extension</string>
+    <string name="extension_info">Displays information about the device\'s wireless debugging status.</string>
+    <string name="enabled">Wireless debugging on</string>
+    <string name="disabled">Wireless debugging off</string>
+    <string name="always">Always show</string>
+    <string name="preferences_title">Bluetooth Extension Settings</string>
+    <string name="summary">Extension will always show even when no wireless debugging is disabled</string>
+    <string name="plugin">You can begin debugging by plugging in your device</string>
+    <string name="portno">You can begin debugging wirelessly by connecting to %1$s:%2$s</string>
+
+</resources>
