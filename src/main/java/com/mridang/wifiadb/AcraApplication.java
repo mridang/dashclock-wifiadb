@@ -7,7 +7,8 @@ import org.acra.sender.HttpSender;
 import android.app.Application;
 import android.content.Context;
 
-@ReportsCrashes(formUri = "https://mridang.cloudant.com/acra-dashclock/_design/acra-storage/_update/report", reportType = HttpSender.Type.JSON, httpMethod = HttpSender.Method.POST, formUriBasicAuthLogin = "selyinsainsinevesevarmst", formUriBasicAuthPassword = "OVB0aOwRxDBs0jUKKLwMNyH6", formKey = "", customReportContent = {
+@SuppressWarnings("ALL")
+@ReportsCrashes(formUri = "https://mridang.cloudant.com/acra-dashclock/_design/acra-storage/_update/report", reportType = HttpSender.Type.JSON, httpMethod = HttpSender.Method.POST, formUriBasicAuthLogin = "selyinsainsinevesevarmst", formUriBasicAuthPassword = "OVB0aOwRxDBs0jUKKLwMNyH6", formKey = "", sendReportsInDevMode = false, customReportContent = {
 		ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME, ReportField.ANDROID_VERSION,
 		ReportField.PACKAGE_NAME, ReportField.REPORT_ID, ReportField.BUILD, ReportField.STACK_TRACE, ReportField.BRAND,
 		ReportField.PHONE_MODEL, ReportField.BUILD, ReportField.INSTALLATION_ID, ReportField.CUSTOM_DATA,
