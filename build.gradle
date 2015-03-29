@@ -8,9 +8,18 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
     }
+    signingConfigs {
+        release {
+            storeFile file(KEYSTORE)
+            storePassword KEYSTORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
