@@ -1,10 +1,5 @@
 package com.mridang.wifiadb;
 
-import java.util.Random;
-import java.util.Set;
-
-import org.acra.ACRA;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,9 +16,15 @@ import android.util.Log;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 
+import org.acra.ACRA;
+
+import java.util.Random;
+import java.util.Set;
+
 /**
  * Base extension class that extends the default Dashclock Extension class and add
  * more functionality such as registering intents
+ *
  * @author mridang
  */
 @SuppressWarnings("ALL")
@@ -31,6 +32,7 @@ public abstract class ImprovedExtension extends DashClockExtension {
 
 	/**
 	 * Generic broadcast receiver to receive all the registered intent
+	 *
 	 * @author mridang
 	 */
 	private class DashclockReceiver extends BroadcastReceiver {
@@ -38,13 +40,13 @@ public abstract class ImprovedExtension extends DashClockExtension {
 		/**
 		 * Receiver method that receives the intent and simply pass it to the
 		 * extension
-		 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+		 *
+		 * @see BroadcastReceiver#onReceive(Context, Intent)
 		 */
 		@Override
 		public void onReceive(Context ctxContext, Intent ittIntent) {
 			ImprovedExtension.this.onReceiveIntent(ctxContext, ittIntent);
 		}
-
 	}
 
 	/**
@@ -61,7 +63,7 @@ public abstract class ImprovedExtension extends DashClockExtension {
 	 * The instance of the shared preferences of this extension which is loaded
 	 * when the first setting is read
 	 */
-    private SharedPreferences speSettings;
+	private SharedPreferences speSettings;
 
 	/*
 	 * @see com.google.android.apps.dashclock.api.DashClockExtension#onCreate()
@@ -71,7 +73,6 @@ public abstract class ImprovedExtension extends DashClockExtension {
 		super.onCreate();
 		Log.d(getTag(), "Created");
 		ACRA.init(new AcraApplication(getApplicationContext()));
-
 	}
 
 	/*
@@ -86,11 +87,9 @@ public abstract class ImprovedExtension extends DashClockExtension {
 
 				Log.d(getTag(), "Unregistered any existing status receivers");
 				unregisterReceiver(objReceiver);
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		}
 
 		if (getUris() != null) {
@@ -98,24 +97,26 @@ public abstract class ImprovedExtension extends DashClockExtension {
 		}
 		super.onDestroy();
 		Log.d(getTag(), "Destroyed");
-
 	}
 
 	/**
 	 * Abstract method that needs to be overridden to return a list of intents
 	 * that should be registered
+	 *
 	 * @return A intent filter with the list of intents to register
 	 */
 	protected abstract IntentFilter getIntents();
 
 	/**
 	 * Abstract method that needs to be overridden to return a the logging tag
+	 *
 	 * @return The logging tag that should be used for logging messages
 	 */
 	protected abstract String getTag();
 
 	/**
 	 * Abstract method that needs to be overridden to return a list of content-uris
+	 *
 	 * @return A list of content uris to watch
 	 */
 	protected abstract String[] getUris();
@@ -138,33 +139,30 @@ public abstract class ImprovedExtension extends DashClockExtension {
 
 					Log.d(getTag(), "Unregistered any existing status receivers");
 					unregisterReceiver(objReceiver);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 
 			objReceiver = new DashclockReceiver();
 			registerReceiver(objReceiver, ittIntents);
 			Log.d(getTag(), "Registered the status receiver");
-
 		}
 
 		if (this.getUris() != null) {
 			addWatchContentUris(this.getUris());
 		}
-
 	}
 
 	/**
 	 * Method that receives all the intents that are passed to from the broadcast
 	 * receiver. This method needs to be implemented but doesn't need to do anything
 	 * if no intents are needed
+	 *
 	 * @param ctxContext The current service's context
-	 * @param ittIntent The intent that was received
+	 * @param ittIntent  The intent that was received
 	 */
-	protected abstract void onReceiveIntent(Context ctxContext,Intent ittIntent);
+	protected abstract void onReceiveIntent(Context ctxContext, Intent ittIntent);
 
 	/**
 	 * Helper method that simply tries to publish the previous update that was
@@ -177,6 +175,7 @@ public abstract class ImprovedExtension extends DashClockExtension {
 	/**
 	 * Helper method that publishes an update but also checks if the advert message
 	 * needs to be shown.
+	 *
 	 * @param edtPublish The extension data that needs to be published
 	 */
 	final void doUpdate(ExtensionData edtPublish) {
@@ -184,15 +183,14 @@ public abstract class ImprovedExtension extends DashClockExtension {
 		edtPrevious = edtPublish;
 		try {
 
-            //noinspection DoubleNegation
-            if (new Random().nextInt(5) == 0 && !(0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE))) {
+			//noinspection DoubleNegation
+			if (new Random().nextInt(5) == 0 && !(0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE))) {
 
 				PackageManager mgrPackages = getApplicationContext().getPackageManager();
 
 				try {
 
 					mgrPackages.getPackageInfo("com.mridang.donate", PackageManager.GET_META_DATA);
-
 				} catch (NameNotFoundException e) {
 
 					Integer intExtensions = 0;
@@ -203,31 +201,26 @@ public abstract class ImprovedExtension extends DashClockExtension {
 
 						strPackage = info.serviceInfo.applicationInfo.packageName;
 						intExtensions = intExtensions + (strPackage.startsWith("com.mridang.") ? 1 : 0);
-
 					}
 
 					if (intExtensions > 1) {
 
-						ExtensionData edtAdvert = new ExtensionData();
-						edtAdvert.visible(true);
-						edtAdvert.clickIntent(new Intent(Intent.ACTION_VIEW).setData(Uri
-								.parse("market:details?id=com.mridang.donate")));
-						edtAdvert.expandedTitle("Please consider a one time purchase to unlock.");
-						edtAdvert
-						.expandedBody("Thank you for using "
+						Uri uriMarket = Uri.parse("market://details?id=com.mridang.donate");
+						ExtensionData edtDonate = new ExtensionData();
+						edtDonate.visible(true);
+						edtDonate.clickIntent(new Intent(Intent.ACTION_VIEW, uriMarket));
+						edtDonate.expandedTitle("Please consider a one time purchase to unlock.");
+						edtDonate.expandedBody("Thank you for using "
 								+ intExtensions
 								+ " extensions of mine. Click this to make a one-time purchase or use just one extension to make this disappear.");
 						setUpdateWhenScreenOn(true);
-						publishUpdate(edtAdvert);
-
+						edtDonate.icon(R.drawable.ic_dashclock);
+						publishUpdate(edtDonate);
 					}
-
 				}
-
 			} else {
 				publishUpdate(edtPrevious);
 			}
-
 		} catch (Exception e) {
 			edtPublish.visible(false);
 			Log.e(getTag(), "Encountered an error", e);
@@ -249,7 +242,7 @@ public abstract class ImprovedExtension extends DashClockExtension {
 	/*
 	 * @see android.preference.PreferenceManager#getDefaultSharedPreferences(Context) 
 	 */
-    SharedPreferences getSettings() {
+	SharedPreferences getSettings() {
 		return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	}
 
@@ -257,13 +250,12 @@ public abstract class ImprovedExtension extends DashClockExtension {
 	 * (non-Javadoc)
 	 * @see android.content.SharedPreferences#getBoolean(java.lang.String, boolean)
 	 */
-    boolean getBoolean(String strKey, Boolean booDefault) {
+	public boolean getBoolean(String strKey, Boolean booDefault) {
 
 		if (speSettings == null) {
 			speSettings = getSettings();
 		}
 		return speSettings.getBoolean(strKey, booDefault);
-
 	}
 
 	/*
@@ -276,7 +268,6 @@ public abstract class ImprovedExtension extends DashClockExtension {
 			speSettings = getSettings();
 		}
 		return speSettings.getFloat(strKey, fltDefault);
-
 	}
 
 	/*
@@ -289,7 +280,6 @@ public abstract class ImprovedExtension extends DashClockExtension {
 			speSettings = getSettings();
 		}
 		return speSettings.getInt(strKey, intDefault);
-
 	}
 
 	/*
@@ -302,7 +292,6 @@ public abstract class ImprovedExtension extends DashClockExtension {
 			speSettings = getSettings();
 		}
 		return speSettings.getLong(strKey, lngDefault);
-
 	}
 
 	/*
@@ -315,45 +304,40 @@ public abstract class ImprovedExtension extends DashClockExtension {
 			speSettings = getSettings();
 		}
 		return speSettings.getString(strKey, strDefault);
-
 	}
 
-    /*
-     * (non-Javadoc)
-     * @see android.content.SharedPreferences#getStringSet(java.lang.String, java.util.Set)
-     */
-    public Set<String> getSet(String strKey, Set<String> setDefault) {
+	/*
+	 * (non-Javadoc)
+	 * @see android.content.SharedPreferences#getStringSet(java.lang.String, java.util.Set)
+	 */
+	public Set<String> getSet(String strKey, Set<String> setDefault) {
 
-        if (speSettings == null) {
-            speSettings = getSettings();
-        }
-        return speSettings.getStringSet(strKey, setDefault);
+		if (speSettings == null) {
+			speSettings = getSettings();
+		}
+		return speSettings.getStringSet(strKey, setDefault);
+	}
 
-    }
+	/*
+	 * @see android.content.SharedPreferences#contains(java.lang.String)
+	 */
+	public Boolean hasSetting(String strKey) {
 
-    /*
-     * @see android.content.SharedPreferences#contains(java.lang.String)
-     */
-    public Boolean hasSetting(String strKey) {
+		if (speSettings == null) {
+			speSettings = getSettings();
+		}
+		return speSettings.contains(strKey);
+	}
 
-        if (speSettings == null) {
-            speSettings = getSettings();
-        }
-        return speSettings.contains(strKey);
+	/*
+	 * (non-Javadoc)
+	 * @see android.content.SharedPreferences.Editor android.content.SharedPreferences#edit()
+	 */
+	public SharedPreferences.Editor getEditor() {
 
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see  android.content.SharedPreferences.Editor android.content.SharedPreferences#edit()
-     */
-    public SharedPreferences.Editor getEditor() {
-
-        if (speSettings == null) {
-            speSettings = getSettings();
-        }
-        return speSettings.edit();
-
-    }
-
+		if (speSettings == null) {
+			speSettings = getSettings();
+		}
+		return speSettings.edit();
+	}
 }

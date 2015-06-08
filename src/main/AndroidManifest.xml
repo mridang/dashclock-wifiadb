@@ -1,10 +1,10 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mridang.wifiadb"
-    android:versionCode="3"
-    android:versionName="0.3">
+<manifest package="com.mridang.wifiadb"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionCode="4"
+          android:versionName="0.4">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -17,21 +17,21 @@
             android:label="@string/extension_name"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
             <intent-filter>
-                <action android:name="com.google.android.apps.dashclock.Extension" />
+                <action android:name="com.google.android.apps.dashclock.Extension"/>
             </intent-filter>
 
             <meta-data
                 android:name="protocolVersion"
-                android:value="2" />
+                android:value="2"/>
             <meta-data
                 android:name="worldReadable"
-                android:value="true" />
+                android:value="true"/>
             <meta-data
                 android:name="description"
-                android:value="@string/extension_info" />
+                android:value="@string/extension_info"/>
             <meta-data
                 android:name="settingsActivity"
-                android:value=".WidgetSettings" />
+                android:value=".WidgetSettings"/>
         </service>
 
         <activity
